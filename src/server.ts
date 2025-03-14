@@ -9,13 +9,11 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
-app.use(
-  cors({
-    origin: process.env.FRONTEND_URL || "http://localhost:5173",
-    methods: ["GET", "POST"],
-    credentials: true,
-  })
-);
+app.use(cors());
+app.use(express.json());
+app.set("view engine", "ejs");
+app.set("views", "/src/views");
+app.use(express.static("src/public"));
 app.use(express.json());
 
 // Routes
@@ -49,10 +47,10 @@ app.post("/mail", async (req, res) => {
       opmerking,
     });
 
-    res.status(200).json({ message: "Email sent successfully" });
+    res.status(200).json({ message: "Email sent." });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Failed to send email" });
+    res.status(500).json({ error: "Failed to send." });
   }
 });
 
